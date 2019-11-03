@@ -12,7 +12,7 @@ public class ConnectionInfoHelper {
         connectionInfo.setSessionId(getRandomNumber(10000, 99999));
         connectionInfo.setConnectionTime(new Date().getTime() - getRandomNumber(0, 50000));
         connectionInfo.setUserIp(
-                getRandomNumber(100, 255) + "." +
+                        getRandomNumber(100, 255) + "." +
                         getRandomNumber(100, 255) + "." +
                         getRandomNumber(100, 255) + "." +
                         getRandomNumber(100, 255)

@@ -7,6 +7,7 @@ import com.mainacad.model.ConnectionInfo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
 
@@ -17,13 +18,15 @@ public class AppFunner {
         List<String> connectionIpList = Collections.synchronizedList(new ArrayList<>());
         List<Thread> threads = new ArrayList<>();
 
+        Semaphore semaphore = new Semaphore(10);
+
+
         for (int i=0; i<=100; i++){
             ConnectionInfo connectionInfo = ConnectionInfoHelper.getRandomConnectionInfo();
             MultithreadWrapper multithreadWrapper =
-                    new MultithreadWrapper("therad " + i, connectionInfo, connectionIpList);
+                    new MultithreadWrapper("thread " + i, connectionInfo, connectionIpList, semaphore);
 
-          
-            multithreadWrapper.start();
+              multithreadWrapper.start();
         }
 
         while (threadsAlive(threads)) {
@@ -33,7 +36,7 @@ public class AppFunner {
                 e.printStackTrace();
             }
         }
-        LOG.info(connectionIpList.size()+ "connections were written to file");
+        //LOG.info(connectionIpList.size()+ "connections were written to file");
 
     }
     private static boolean threadsAlive(List<Thread> threads){
@@ -44,4 +47,5 @@ public class AppFunner {
         }
         return false;
     }
+
 }
